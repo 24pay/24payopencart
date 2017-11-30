@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of paygate_24pay
  *
@@ -34,6 +28,10 @@ class ControllerExtensionPaymentOpc24Pay extends Controller{
                 $this->load->model('setting/setting');
                 
                 $setting = $this->model_setting_setting->getSetting('opc24pay');
+				
+				/** IF YOU WANT CHANGE ORDER STATUS ON PAYMENT REQUEST **/
+				//$this->model_checkout_order->addOrderHistory($order_id, 2, "24-pay: Request");
+				
                 $data = array();
                 $data['Test'] = $setting['opc24pay_test'];
                 $data['Mid'] = $setting['opc24pay_mid'];
@@ -58,8 +56,7 @@ class ControllerExtensionPaymentOpc24Pay extends Controller{
                 $data['Timestamp'] = date("Y-m-d H:i:s");
 
                 //$order_info['store_url'];
-                $data['NURL'] = "https://yeti.24-pay.sk/paygate/nurl/";
-                //$data['NURL'] = $this->url->link('extension/payment/opc24pay/nurl','', true);
+                $data['NURL'] = $this->url->link('extension/payment/opc24pay/nurl','', true);
                 $data['RURL'] = $this->url->link('extension/payment/opc24pay/rurl','', true);
                 
                 $return['form'] = $this->buildForm($data);
@@ -67,9 +64,9 @@ class ControllerExtensionPaymentOpc24Pay extends Controller{
             }
             else{
                 
-                $return['message'] = "Niečo sa pokazilo";
+                $return['message'] = "Something went wrong";
                 $return['code'] = $this->session->data['payment_method']['code'];
-                $return['status'] = "fail";
+                $return['status'] = "FAIL";
             }
             
             

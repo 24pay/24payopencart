@@ -4,11 +4,11 @@
 </style>
 
 <div class="pull-right">
-    <img src="<?php echo $opc24pay_button; ?>" id="opc24pay-pay"/>
+    <img src="<?php echo $opc24pay_button; ?>" id="opc24pay-pay" title="Pay by 24-pay"/>
 </div>
 
 <div id="opc24pay-error"></div>
-<script type="text/javascript"><!--
+<script type="text/javascript">
     $('#opc24pay-pay').on('click', function() {
         $.ajax({
             type: 'get',
@@ -19,18 +19,18 @@
                 $('#opc24pay-error').empty();
                 $('#opc24pay-pay').css('cursor', 'wait');
             },
-            complete: function () {
-                $('#opc24pay-pay').css('cursor', 'pointer');
-            },
             success: function (ret) {
                 console.log(ret);
                 if (ret.status == 'SUCCESS') {
-                    console.log("APPEND FORM AND SUBMIT");
+                    
                     $(ret.form).appendTo('body').submit();
                 } else {
                     $('#opc24pay-error').empty().append(ret.message);
                 }
+            },
+			complete: function () {
+                $('#opc24pay-pay').css('cursor', 'pointer');
             }
         });
     });
-//--></script>
+</script>
